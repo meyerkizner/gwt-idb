@@ -20,6 +20,7 @@
 
 package com.prealpha.idb.async;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -49,7 +50,7 @@ public interface DatabaseFactory {
 	 * @param callback
 	 *            receives the resulting connection object or exception
 	 */
-	void getDatabase(String name, AsyncCallback<Database> callback);
+	void getDatabase(String name, AsyncCallback<? extends Database> callback);
 
 	/**
 	 * Deletes the database with the specified name. If successful, {@code null}
@@ -62,5 +63,6 @@ public interface DatabaseFactory {
 	 * @param callback
 	 *            receives {@code null} on success or an exception on failure
 	 */
-	void deleteDatabase(String name, AsyncCallback<Void> callback);
+	void deleteDatabase(String name,
+			AsyncCallback<? extends JavaScriptObject> callback);
 }

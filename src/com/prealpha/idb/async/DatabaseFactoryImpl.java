@@ -20,14 +20,13 @@
 
 package com.prealpha.idb.async;
 
-import com.google.common.base.Function;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * A default implementation of {@link DatabaseFactory}. A native
- * {@code IDBFactory} is used as the peer for this implementation. There is a
- * default mechanism in place for obtaining a reference to a peer, but this
+ * A default implementation of {@link DatabaseFactory}. This implementation uses
+ * a native {@code IDBFactory} peer to allow for cross-browser support. There is
+ * a default mechanism in place for obtaining a reference to a peer, but this
  * behavior can be redefined by overriding the protected method
  * {@link #getPeer()} in a subclass.
  * 
@@ -42,27 +41,15 @@ class DatabaseFactoryImpl implements DatabaseFactory {
 	}
 
 	@Override
-	public final void getDatabase(String name, AsyncCallback<Database> callback) {
-		Request request = open(name);
-		Function<JavaScriptObject, Database> resultMapping = new Function<JavaScriptObject, Database>() {
-			@Override
-			public Database apply(JavaScriptObject input) {
-				return new Database(input);
-			}
-		};
-		request.attach(callback, resultMapping);
+	public final void getDatabase(String name,
+			AsyncCallback<? extends Database> callback) {
+		open(name).attach(callback);
 	}
 
 	@Override
-	public final void deleteDatabase(String name, AsyncCallback<Void> callback) {
-		Request request = deleteDatabase(name);
-		Function<JavaScriptObject, Void> resultMapping = new Function<JavaScriptObject, Void>() {
-			@Override
-			public Void apply(JavaScriptObject input) {
-				return null;
-			}
-		};
-		request.attach(callback, resultMapping);
+	public final void deleteDatabase(String name,
+			AsyncCallback<? extends JavaScriptObject> callback) {
+		deleteDatabase(name).attach(callback);
 	}
 
 	/**
@@ -88,30 +75,28 @@ class DatabaseFactoryImpl implements DatabaseFactory {
 	}-*/;
 
 	/**
-	 * Attempts to open a connection to the specified database, returning a Java
-	 * {@link Request} wrapper around the native request.
+	 * Attempts to open a connection to the specified database, returning a
+	 * {@link Request} immediately and executing the operation asynchronously.
 	 * 
 	 * @param name
 	 *            the name of the database
-	 * @return an asynchronous request wrapper for the connection
+	 * @return an asynchronous request for the connection
 	 */
 	private native Request open(String name) /*-{
 		var peer = this.@com.prealpha.idb.async.DatabaseFactoryImpl::getPeer()();
-		var request = peer.open(name);
-		return @com.prealpha.idb.async.Request::new(Lcom/google/gwt/core/client/JavaScriptObject;)(request);
+		return peer.open(name);
 	}-*/;
 
 	/**
-	 * Attempts to delete the specified database, returning a Java
-	 * {@link Request} wrapper around the native request.
+	 * Attempts to delete the specified database, returning a {@link Request}
+	 * immediately and executing the operation asynchronously.
 	 * 
 	 * @param name
 	 *            the name of the database
-	 * @return an asynchronous request wrapper for the deletion attempt
+	 * @return an asynchronous request for the deletion attempt
 	 */
 	private native Request deleteDatabase(String name) /*-{
 		var peer = this.@com.prealpha.idb.async.DatabaseFactoryImpl::getPeer()();
-		var request = peer.deleteDatabase(name);
-		return @com.prealpha.idb.async.Request::new(Lcom/google/gwt/core/client/JavaScriptObject;)(request);
+		return peer.deleteDatabase(name);
 	}-*/;
 }

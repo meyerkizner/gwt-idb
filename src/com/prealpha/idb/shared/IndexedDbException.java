@@ -20,8 +20,6 @@
 
 package com.prealpha.idb.shared;
 
-import static com.google.common.base.Preconditions.*;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -122,10 +120,11 @@ public class IndexedDbException extends Exception {
 		 * @return the corresponding {@code Type}
 		 */
 		public static Type getType(int errorCode) {
-			Type[] values = values();
-			checkArgument(errorCode >= 1);
-			checkArgument(errorCode <= values.length);
-			return values[errorCode - 1];
+			try {
+				return values()[errorCode - 1];
+			} catch (IndexOutOfBoundsException ioobx) {
+				throw new IllegalArgumentException("invalid error code");
+			}
 		}
 	}
 
@@ -142,11 +141,11 @@ public class IndexedDbException extends Exception {
 	 * 
 	 * @param type
 	 *            the type of this exception
+	 * @throws NullPointerException
+	 *             if {@code type} is {@code null}
 	 */
 	public IndexedDbException(Type type) {
-		super();
-		checkNotNull(type);
-		this.type = type;
+		this(type, null);
 	}
 
 	/**
@@ -158,10 +157,14 @@ public class IndexedDbException extends Exception {
 	 *            the type of this exception
 	 * @param message
 	 *            a detail message explaining the exception
+	 * @throws NullPointerException
+	 *             if {@code type} is {@code null}
 	 */
 	public IndexedDbException(Type type, String message) {
 		super(message);
-		checkNotNull(type);
+		if (type == null) {
+			throw new NullPointerException();
+		}
 		this.type = type;
 	}
 
