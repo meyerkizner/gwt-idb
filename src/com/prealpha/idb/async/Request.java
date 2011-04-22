@@ -41,18 +41,19 @@ final class Request {
 	private final JavaScriptObject peer;
 
 	/**
-	 * Constructs a new {@code Request} with the peer given. No checks are
-	 * performed to ensure that the peer is actually a {@code IDBRequest}. If
-	 * the peer is invalid, failures will result when an attempt is made to use
-	 * this {@code Request}.
+	 * Constructs a new {@code Request} with the peer given. The peer must be
+	 * non-{@code null}, and it must be a native {@code IDBRequest}.
 	 * 
 	 * @param peer
 	 *            the native peer
 	 * @throws NullPointerException
 	 *             if {@code peer} is {@code null}
+	 * @throws IllegalArgumentException
+	 *             if {@code peer} is not a native {@code IDBRequest}
 	 */
 	Request(JavaScriptObject peer) {
 		checkNotNull(peer);
+		checkArgument(validatePeer(peer));
 		this.peer = peer;
 	}
 
@@ -86,5 +87,17 @@ final class Request {
 			var exception = @com.prealpha.idb.shared.IndexedDbException::new(Lcom/prealpha/idb/shared/IndexedDbException$Type;)(type);
 			callback.@com.google.gwt.user.client.rpc.AsyncCallback::onFailure(Ljava/lang/Throwable;)(exception);
 		};
+	}-*/;
+
+	/**
+	 * Checks that the native peer provided is of the correct type,
+	 * {@code IDBRequest}.
+	 * 
+	 * @param peer
+	 *            the native peer
+	 * @return {@code true} if {@code peer} is a native {@code IDBRequest}
+	 */
+	private native boolean validatePeer(JavaScriptObject peer) /*-{
+		return (peer instanceof IDBRequest);
 	}-*/;
 }
