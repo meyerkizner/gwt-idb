@@ -41,14 +41,13 @@ class DatabaseFactoryImpl implements DatabaseFactory {
 	}
 
 	@Override
-	public final void getDatabase(String name,
-			AsyncCallback<? extends Database> callback) {
+	public final void getDatabase(String name, AsyncCallback<Database> callback) {
 		open(name).attach(callback);
 	}
 
 	@Override
 	public final void deleteDatabase(String name,
-			AsyncCallback<? extends JavaScriptObject> callback) {
+			AsyncCallback<JavaScriptObject> callback) {
 		deleteDatabase(name).attach(callback);
 	}
 

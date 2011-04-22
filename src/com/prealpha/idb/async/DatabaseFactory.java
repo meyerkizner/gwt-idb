@@ -50,7 +50,7 @@ public interface DatabaseFactory {
 	 * @param callback
 	 *            receives the resulting connection object or exception
 	 */
-	void getDatabase(String name, AsyncCallback<? extends Database> callback);
+	void getDatabase(String name, AsyncCallback<Database> callback);
 
 	/**
 	 * Deletes the database with the specified name. If successful, {@code null}
@@ -63,6 +63,5 @@ public interface DatabaseFactory {
 	 * @param callback
 	 *            receives {@code null} on success or an exception on failure
 	 */
-	void deleteDatabase(String name,
-			AsyncCallback<? extends JavaScriptObject> callback);
+	void deleteDatabase(String name, AsyncCallback<JavaScriptObject> callback);
 }
