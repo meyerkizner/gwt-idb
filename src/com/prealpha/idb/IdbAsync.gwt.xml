@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+
+	<inherits name="com.google.gwt.user.User" />
+	<source path="async" />
+	<source path="shared" />
+
+	<replace-with class="com.prealpha.idb.async.impl.DatabaseFactoryImpl">
+		<when-type-is class="com.prealpha.idb.async.DatabaseFactory" />
+	</replace-with>
+	<replace-with class="com.prealpha.idb.async.impl.DatabaseFactoryImplMozilla">
+		<when-type-is class="com.prealpha.idb.async.DatabaseFactory" />
+		<when-property-is name="user.agent" value="gecko1_8" />
+	</replace-with>
+	<replace-with class="com.prealpha.idb.async.impl.DatabaseFactoryImplWebkit">
+		<when-type-is class="com.prealpha.idb.async.DatabaseFactory" />
+		<when-property-is name="user.agent" value="safari" />
+	</replace-with>
+
+</module>
