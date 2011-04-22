@@ -18,7 +18,7 @@
  * along with gwt-idb. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.prealpha.idb.async.impl;
+package com.prealpha.idb.async;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -53,7 +53,7 @@ final class DatabaseFactoryImplWebkit extends DatabaseFactoryImpl {
 			return $wnd.webkitIndexedDB;
 		} else {
 			// try to fall back on the default
-			return this.@com.prealpha.idb.async.impl.DatabaseFactoryImplWebkit::getDefaultPeer()();
+			return this.@com.prealpha.idb.async.DatabaseFactoryImplWebkit::getDefaultPeer()();
 		}
 	}-*/;
 

@@ -20,6 +20,10 @@
 
 package com.prealpha.idb.async;
 
+import com.google.gwt.core.client.JavaScriptObject;
+
 public class Database {
 	// TODO: placeholder to allow compilation of DatabaseFactory
+	Database(JavaScriptObject peer) {
+	}
 }

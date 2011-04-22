@@ -18,7 +18,7 @@
  * along with gwt-idb. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.prealpha.idb.async.impl;
+package com.prealpha.idb.async;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -52,7 +52,7 @@ final class DatabaseFactoryImplMozilla extends DatabaseFactoryImpl {
 			return $wnd.mozIndexedDB;
 		} else {
 			// try to fall back on the default
-			return this.@com.prealpha.idb.async.impl.DatabaseFactoryImplMozilla::getDefaultPeer()();
+			return this.@com.prealpha.idb.async.DatabaseFactoryImplMozilla::getDefaultPeer()();
 		}
 	}-*/;
 

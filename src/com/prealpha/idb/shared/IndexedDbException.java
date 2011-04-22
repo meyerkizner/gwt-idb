@@ -20,6 +20,10 @@
 
 package com.prealpha.idb.shared;
 
+import static com.google.common.base.Preconditions.*;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
 /**
  * Exceptions which result from the use of the IndexedDB API. The spec
  * (2011-04-19) defines eleven conditions which can result in this exception
@@ -118,26 +122,55 @@ public class IndexedDbException extends Exception {
 		 * @return the corresponding {@code Type}
 		 */
 		public static Type getType(int errorCode) {
-			try {
-				return values()[errorCode - 1];
-			} catch (IndexOutOfBoundsException ioobx) {
-				throw new IllegalArgumentException();
-			}
+			Type[] values = values();
+			checkArgument(errorCode >= 1);
+			checkArgument(errorCode <= values.length);
+			return values[errorCode - 1];
 		}
 	}
 
+	/**
+	 * The type of this exception, as determined by the native error code.
+	 */
 	private final Type type;
-	
+
+	/**
+	 * Constructs a new {@code IndexedDbException} with the specified exception
+	 * type, but no detail message. This constructor should be used when an
+	 * asynchronous callback receives an error event but a full exception is not
+	 * thrown.
+	 * 
+	 * @param type
+	 *            the type of this exception
+	 */
 	public IndexedDbException(Type type) {
 		super();
+		checkNotNull(type);
 		this.type = type;
 	}
 
-	public IndexedDbException(String message, Type type) {
+	/**
+	 * Constructs a new {@code IndexedDbException} with the specified exception
+	 * type and detail message. This constructor should be used when a native
+	 * {@code IDBDatabaseException} is thrown.
+	 * 
+	 * @param type
+	 *            the type of this exception
+	 * @param message
+	 *            a detail message explaining the exception
+	 */
+	public IndexedDbException(Type type, String message) {
 		super(message);
+		checkNotNull(type);
 		this.type = type;
 	}
 
+	/**
+	 * Returns the type of this exception. The type is determined by the native
+	 * error code. All types are defined in the spec.
+	 * 
+	 * @return the type of this exception
+	 */
 	public Type getType() {
 		return type;
 	}

@@ -5,14 +5,14 @@
 	<source path="async" />
 	<source path="shared" />
 
-	<replace-with class="com.prealpha.idb.async.impl.DatabaseFactoryImpl">
+	<replace-with class="com.prealpha.idb.async.DatabaseFactoryImpl">
 		<when-type-is class="com.prealpha.idb.async.DatabaseFactory" />
 	</replace-with>
-	<replace-with class="com.prealpha.idb.async.impl.DatabaseFactoryImplMozilla">
+	<replace-with class="com.prealpha.idb.async.DatabaseFactoryImplMozilla">
 		<when-type-is class="com.prealpha.idb.async.DatabaseFactory" />
 		<when-property-is name="user.agent" value="gecko1_8" />
 	</replace-with>
-	<replace-with class="com.prealpha.idb.async.impl.DatabaseFactoryImplWebkit">
+	<replace-with class="com.prealpha.idb.async.DatabaseFactoryImplWebkit">
 		<when-type-is class="com.prealpha.idb.async.DatabaseFactory" />
 		<when-property-is name="user.agent" value="safari" />
 	</replace-with>
