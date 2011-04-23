@@ -54,14 +54,20 @@ public class IdbCursor extends JavaScriptObject {
 	 * XXX: renamed from continue()
 	 */
 	public final native void next() /*-{
-		this.continue();
+		// TODO: hack to allow access
+		this["continue"]();
 	}-*/;
 	
+	/*
+	 * XXX: renamed from continue()
+	 */
 	public final native void next(Object key) /*-{
-		this.continue(key);
+		// TODO: hack to allow access
+		this["continue"](key);
 	}-*/;
 	
 	public final native IdbRequest delete() /*-{
-		return this.delete();
+		// TODO: hack to allow access
+		this["delete"]();
 	}-*/;
 }

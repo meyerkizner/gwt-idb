@@ -59,7 +59,8 @@ public final class IdbObjectStore extends JavaScriptObject {
 	}-*/;
 
 	public native IdbRequest delete(Object key) /*-{
-		return this.delete(key);
+		// TODO: hack to allow access
+		this["delete"](key);
 	}-*/;
 
 	public native IdbRequest get(Object key) /*-{
