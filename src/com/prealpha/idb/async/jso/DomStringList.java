@@ -18,14 +18,23 @@
  * along with gwt-idb. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.prealpha.idb.async;
+package com.prealpha.idb.async.jso;
 
-import com.prealpha.idb.async.jso.IdbDatabase;
+import com.google.gwt.core.client.JavaScriptObject;
 
-/*
- * TODO: placeholder to allow DatabaseFactory to compile
- */
-public final class Database {
-	Database(IdbDatabase peer) {
+public final class DomStringList extends JavaScriptObject {
+	protected DomStringList() {
 	}
+
+	public native int length() /*-{
+		return this.length;
+	}-*/;
+
+	public native String item(int index) /*-{
+		return this.item(index);
+	}-*/;
+
+	public native boolean contains(String str) /*-{
+		return this.contains(str);
+	}-*/;
 }

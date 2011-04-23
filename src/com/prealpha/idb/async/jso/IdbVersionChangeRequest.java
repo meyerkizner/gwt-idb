@@ -18,14 +18,15 @@
  * along with gwt-idb. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.prealpha.idb.async;
+package com.prealpha.idb.async.jso;
 
-import com.prealpha.idb.async.jso.IdbDatabase;
-
-/*
- * TODO: placeholder to allow DatabaseFactory to compile
- */
-public final class Database {
-	Database(IdbDatabase peer) {
+public final class IdbVersionChangeRequest extends IdbRequest {
+	protected IdbVersionChangeRequest() {
 	}
+
+	public native void onblocked(Callback callback) /*-{
+		this.onblocked = function(event) {
+			callback.@com.prealpha.idb.async.jso.Callback::run(Lcom/google/gwt/core/client/JavaScriptObject;)(event);
+		};
+	}-*/;
 }

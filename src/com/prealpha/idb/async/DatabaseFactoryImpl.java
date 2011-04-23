@@ -22,6 +22,12 @@ package com.prealpha.idb.async;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.prealpha.idb.async.jso.Callback;
+import com.prealpha.idb.async.jso.IdbDatabase;
+import com.prealpha.idb.async.jso.IdbFactory;
+import com.prealpha.idb.async.jso.IdbRequest;
+import com.prealpha.idb.shared.IndexedDbException;
+import com.prealpha.idb.shared.IndexedDbException.Type;
 
 /**
  * A default implementation of {@link DatabaseFactory}. This implementation uses
@@ -41,19 +47,48 @@ class DatabaseFactoryImpl implements DatabaseFactory {
 	}
 
 	@Override
-	public final void getDatabase(String name, AsyncCallback<Database> callback) {
-		open(name).attach(callback);
+	public final void getDatabase(String name,
+			final AsyncCallback<Database> callback) {
+		final IdbRequest request = getPeer().open(name);
+		request.onerror(new Callback() {
+			@Override
+			public void run(JavaScriptObject event) {
+				int errorCode = request.errorCode();
+				Type type = Type.getType(errorCode);
+				callback.onFailure(new IndexedDbException(type));
+			}
+		});
+		request.onsuccess(new Callback() {
+			@Override
+			public void run(JavaScriptObject event) {
+				IdbDatabase database = (IdbDatabase) request.result();
+				callback.onSuccess(new Database(database));
+			}
+		});
 	}
 
 	@Override
 	public final void deleteDatabase(String name,
-			AsyncCallback<JavaScriptObject> callback) {
-		deleteDatabase(name).attach(callback);
+			final AsyncCallback<Void> callback) {
+		final IdbRequest request = getPeer().deleteDatabase(name);
+		request.onerror(new Callback() {
+			@Override
+			public void run(JavaScriptObject event) {
+				int errorCode = request.errorCode();
+				Type type = Type.getType(errorCode);
+				callback.onFailure(new IndexedDbException(type));
+			}
+		});
+		request.onsuccess(new Callback() {
+			@Override
+			public void run(JavaScriptObject event) {
+				callback.onSuccess(null);
+			}
+		});
 	}
 
 	/**
-	 * Returns the native peer of this database factory. The native peer must be
-	 * of the type {@code IDBFactory} as defined in the spec (2011-04-19).
+	 * Returns the native {@code IDBFactory} peer of this database factory.
 	 * <p>
 	 * 
 	 * The default implementation of this method checks to see if the
@@ -65,37 +100,11 @@ class DatabaseFactoryImpl implements DatabaseFactory {
 	 * @throws UnsupportedOperationException
 	 *             if the browser does not support IndexedDB
 	 */
-	protected native JavaScriptObject getPeer() /*-{
+	protected native IdbFactory getPeer() /*-{
 		if ($wnd.indexedDB) {
 			return $wnd.indexedDB;
 		} else {
 			throw @java.lang.UnsupportedOperationException::new(Ljava/lang/String;)("this browser does not support IndexedDB");
 		}
-	}-*/;
-
-	/**
-	 * Attempts to open a connection to the specified database, returning a
-	 * {@link Request} immediately and executing the operation asynchronously.
-	 * 
-	 * @param name
-	 *            the name of the database
-	 * @return an asynchronous request for the connection
-	 */
-	private native Request open(String name) /*-{
-		var peer = this.@com.prealpha.idb.async.DatabaseFactoryImpl::getPeer()();
-		return peer.open(name);
-	}-*/;
-
-	/**
-	 * Attempts to delete the specified database, returning a {@link Request}
-	 * immediately and executing the operation asynchronously.
-	 * 
-	 * @param name
-	 *            the name of the database
-	 * @return an asynchronous request for the deletion attempt
-	 */
-	private native Request deleteDatabase(String name) /*-{
-		var peer = this.@com.prealpha.idb.async.DatabaseFactoryImpl::getPeer()();
-		return peer.deleteDatabase(name);
 	}-*/;
 }

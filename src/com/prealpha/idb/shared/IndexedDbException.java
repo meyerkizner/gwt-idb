@@ -20,8 +20,6 @@
 
 package com.prealpha.idb.shared;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
  * Exceptions which result from the use of the IndexedDB API. The spec
  * (2011-04-19) defines eleven conditions which can result in this exception
@@ -89,13 +87,13 @@ public class IndexedDbException extends Exception {
 
 		/**
 		 * A request was aborted, for example through a call to
-		 * {@link Transaction#abort(AsyncCallback) Transaction.abort()}.
+		 * {@code Transaction.abort()}.
 		 */
 		ABORT,
 
 		/**
-		 * The mutating operation was attempted in a
-		 * {@link Transaction#READ_ONLY READ_ONLY} transaction.
+		 * The mutating operation was attempted in a {@code READ_ONLY}
+		 * transaction.
 		 */
 		READ_ONLY,
 

@@ -20,11 +20,10 @@
 
 package com.prealpha.idb.async;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * Allows client classes to access {@link Database}s associated with the current
+ * Allows client classes to access {@link IdbDatabase}s associated with the current
  * origin. The implementation of this interface is the sole access point to the
  * IndexedDB API. Per the spec (2011-04-19), database names are unique to the
  * origin in which the script is being run.
@@ -63,5 +62,5 @@ public interface DatabaseFactory {
 	 * @param callback
 	 *            receives {@code null} on success or an exception on failure
 	 */
-	void deleteDatabase(String name, AsyncCallback<JavaScriptObject> callback);
+	void deleteDatabase(String name, AsyncCallback<Void> callback);
 }

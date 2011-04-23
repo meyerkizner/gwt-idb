@@ -20,7 +20,7 @@
 
 package com.prealpha.idb.async;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import com.prealpha.idb.async.jso.IdbFactory;
 
 /**
  * An implementation of {@link DatabaseFactory} for Chrome 11.
@@ -48,7 +48,7 @@ final class DatabaseFactoryImplWebkit extends DatabaseFactoryImpl {
 	 *             {@inheritDoc}
 	 */
 	@Override
-	protected native JavaScriptObject getPeer() /*-{
+	protected native IdbFactory getPeer() /*-{
 		if ($wnd.webkitIndexedDB) {
 			return $wnd.webkitIndexedDB;
 		} else {
@@ -62,7 +62,7 @@ final class DatabaseFactoryImplWebkit extends DatabaseFactoryImpl {
 	 * 
 	 * @return the default peer
 	 */
-	private JavaScriptObject getDefaultPeer() {
+	private IdbFactory getDefaultPeer() {
 		return super.getPeer();
 	}
 }
