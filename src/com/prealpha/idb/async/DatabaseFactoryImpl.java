@@ -31,8 +31,8 @@ import com.prealpha.idb.shared.IndexedDbException.Type;
 
 /**
  * A default implementation of {@link DatabaseFactory}. This implementation uses
- * a native {@code IDBFactory} peer to allow for cross-browser support. There is
- * a default mechanism in place for obtaining a reference to a peer, but this
+ * a {@link IdbFactory} peer to allow for cross-browser support. There is a
+ * default mechanism in place for obtaining a reference to a peer, but this
  * behavior can be redefined by overriding the protected method
  * {@link #getPeer()} in a subclass.
  * 
@@ -88,7 +88,7 @@ class DatabaseFactoryImpl implements DatabaseFactory {
 	}
 
 	/**
-	 * Returns the native {@code IDBFactory} peer of this database factory.
+	 * Returns the {@link IdbFactory} peer of this database factory.
 	 * <p>
 	 * 
 	 * The default implementation of this method checks to see if the
