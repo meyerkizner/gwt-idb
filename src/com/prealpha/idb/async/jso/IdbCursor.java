@@ -21,53 +21,71 @@
 package com.prealpha.idb.async.jso;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.prealpha.idb.shared.IndexedDbException;
 
 public class IdbCursor extends JavaScriptObject {
 	protected IdbCursor() {
 	}
-	
+
 	public final native JavaScriptObject source() /*-{
 		return this.source;
 	}-*/;
-	
+
 	public final native int direction() /*-{
 		return this.direction;
 	}-*/;
-	
+
 	public final native Object key() /*-{
 		return this.key;
 	}-*/;
-	
+
 	public final native Object primaryKey() /*-{
 		return this.primaryKey;
 	}-*/;
-	
-	public final native IdbRequest update(Object value) /*-{
-		return this.update(value);
+
+	public final native IdbRequest update(Object value)
+			throws IndexedDbException /*-{
+		try {
+			return this.update(value);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
-	
+
 	public final native void advance(int count) /*-{
 		this.advance(count);
 	}-*/;
-	
+
 	/*
 	 * XXX: renamed from continue()
 	 */
-	public final native void next() /*-{
-		// TODO: hack to allow access
-		this["continue"]();
+	public final native void next() throws IndexedDbException /*-{
+		try {
+			// TODO: hack to allow access
+			this["continue"]();
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
-	
+
 	/*
 	 * XXX: renamed from continue()
 	 */
-	public final native void next(Object key) /*-{
-		// TODO: hack to allow access
-		this["continue"](key);
+	public final native void next(Object key) throws IndexedDbException /*-{
+		try {
+			// TODO: hack to allow access
+			this["continue"](key);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
-	
-	public final native IdbRequest delete() /*-{
-		// TODO: hack to allow access
-		this["delete"]();
+
+	public final native IdbRequest delete() throws IndexedDbException /*-{
+		try {
+			// TODO: hack to allow access
+			this["delete"]();
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 }

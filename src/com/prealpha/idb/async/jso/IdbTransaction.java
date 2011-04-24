@@ -21,6 +21,7 @@
 package com.prealpha.idb.async.jso;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.prealpha.idb.shared.IndexedDbException;
 
 public final class IdbTransaction extends JavaScriptObject {
 	protected IdbTransaction() {
@@ -34,12 +35,21 @@ public final class IdbTransaction extends JavaScriptObject {
 		return this.database;
 	}-*/;
 
-	public native IdbObjectStore objectStore(String name) /*-{
-		return this.objectStore(name);
+	public native IdbObjectStore objectStore(String name)
+			throws IndexedDbException /*-{
+		try {
+			return this.objectStore(name);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
-	public native void abort() /*-{
-		this.abort();
+	public native void abort() throws IndexedDbException /*-{
+		try {
+			this.abort();
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
 	public native void onabort(Callback callback) /*-{

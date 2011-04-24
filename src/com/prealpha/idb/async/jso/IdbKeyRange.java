@@ -21,6 +21,7 @@
 package com.prealpha.idb.async.jso;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.prealpha.idb.shared.IndexedDbException;
 
 public final class IdbKeyRange extends JavaScriptObject {
 	protected IdbKeyRange() {
@@ -42,20 +43,39 @@ public final class IdbKeyRange extends JavaScriptObject {
 		return this.upperOpen;
 	}-*/;
 
-	public static native IdbKeyRange only(Object value) /*-{
-		return IDBKeyRange.only(value);
+	public static native IdbKeyRange only(Object value)
+			throws IndexedDbException /*-{
+		try {
+			return IDBKeyRange.only(value);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
-	public static native IdbKeyRange lowerBound(Object bound, boolean open) /*-{
-		return IDBKeyRange.lowerBound(bound, open);
+	public static native IdbKeyRange lowerBound(Object bound, boolean open)
+			throws IndexedDbException /*-{
+		try {
+			return IDBKeyRange.lowerBound(bound, open);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
-	public static native IdbKeyRange upperBound(Object bound, boolean open) /*-{
-		return IDBKeyRange.upperBound(bound, open);
+	public static native IdbKeyRange upperBound(Object bound, boolean open)
+			throws IndexedDbException /*-{
+		try {
+			return IDBKeyRange.upperBound(bound, open);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
 	public static native IdbKeyRange bound(Object lower, Object upper,
-			boolean lowerOpen, boolean upperOpen) /*-{
-		return IDBKeyRange.bound(lower, upper, lowerOpen, upperOpen);
+			boolean lowerOpen, boolean upperOpen) throws IndexedDbException /*-{
+		try {
+			return IDBKeyRange.bound(lower, upper, lowerOpen, upperOpen);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 }

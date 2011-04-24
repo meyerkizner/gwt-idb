@@ -21,6 +21,7 @@
 package com.prealpha.idb.async.jso;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.prealpha.idb.shared.IndexedDbException;
 
 public final class IdbIndex extends JavaScriptObject {
 	protected IdbIndex() {
@@ -42,19 +43,37 @@ public final class IdbIndex extends JavaScriptObject {
 		return this.unique;
 	}-*/;
 
-	public native IdbRequest openCursor(IdbKeyRange range, int direction) /*-{
-		return this.openCursor(range, direction);
+	public native IdbRequest openCursor(IdbKeyRange range, int direction)
+			throws IndexedDbException /*-{
+		try {
+			return this.openCursor(range, direction);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
-	public native IdbRequest openKeyCursor(IdbKeyRange range, int direction) /*-{
-		return this.openKeyCursor(range, direction);
+	public native IdbRequest openKeyCursor(IdbKeyRange range, int direction)
+			throws IndexedDbException /*-{
+		try {
+			return this.openKeyCursor(range, direction);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
-	public native IdbRequest get(Object key) /*-{
-		return this.get(key);
+	public native IdbRequest get(Object key) throws IndexedDbException /*-{
+		try {
+			return this.get(key);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
-	public native IdbRequest getKey(Object key) /*-{
-		return this.getKey(key);
+	public native IdbRequest getKey(Object key) throws IndexedDbException /*-{
+		try {
+			return this.getKey(key);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 }

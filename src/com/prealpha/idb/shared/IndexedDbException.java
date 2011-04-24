@@ -20,6 +20,9 @@
 
 package com.prealpha.idb.shared;
 
+import com.google.gwt.core.client.JavaScriptException;
+import com.google.gwt.core.client.JavaScriptObject;
+
 /**
  * Exceptions which result from the use of the IndexedDB API. The spec
  * (2011-04-19) defines eleven conditions which can result in this exception
@@ -124,6 +127,53 @@ public class IndexedDbException extends Exception {
 				throw new IllegalArgumentException("invalid error code");
 			}
 		}
+	}
+
+	/**
+	 * Handles a native exception by either converting it to an
+	 * {@code IndexedDbException} or re-throwing it. If the exception is a
+	 * native {@code IDBDatabaseException}, its error code is converted to a
+	 * {@link Type} and the resulting {@code IndexedDbException} is thrown.
+	 * Otherwise, the native exception is thrown into the calling code. In the
+	 * latter case, the GWT compiler will convert it into a
+	 * {@link JavaScriptException}.
+	 * <p>
+	 * 
+	 * This method is registered as a global function in JavaScript by a static
+	 * initializer. It is accessible as {@code window.handleIdbx}.
+	 * 
+	 * @param err
+	 *            the native exception
+	 * @throws IndexedDbException
+	 *             if the native exception is an {@code IDBDatabaseException},
+	 *             the converted form
+	 * @throws JavaScriptException
+	 *             if the native exception is not a {@code IDBDatabaseException}
+	 *             , the original exception
+	 */
+	private static native void handleIdbx(JavaScriptObject err)
+			throws IndexedDbException /*-{
+		if (err instanceof IdbDatabaseException) {
+			var errorCode = err.code;
+			var type = @com.prealpha.idb.shared.IndexedDbException.Type::getType(I)(errorCode);
+			var message = err.message;
+			throw @com.prealpha.idb.shared.IndexedDbException::new(Lcom/prealpha/idb/shared/IndexedDbException$Type;Ljava/lang/String;)(type, message);
+		} else {
+			throw err;
+		}
+	}-*/;
+
+	/**
+	 * Exports {@link #handleIdbx(JavaScriptObject)} as a JavaScript global
+	 * function. This method is called by a static initializer. It should not be
+	 * accessed otherwise.
+	 */
+	private static native void exportHandleIdbx() /*-{
+		$wnd.handleIdbx = $entry(@com.prealpha.idb.shared.IndexedDbException::handleIdbx(Lcom/google/gwt/core/client/JavaScriptObject;));
+	}-*/;
+
+	static {
+		exportHandleIdbx();
 	}
 
 	/**

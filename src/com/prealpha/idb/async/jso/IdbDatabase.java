@@ -21,6 +21,7 @@
 package com.prealpha.idb.async.jso;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.prealpha.idb.shared.IndexedDbException;
 
 public final class IdbDatabase extends JavaScriptObject {
 	protected IdbDatabase() {
@@ -39,23 +40,37 @@ public final class IdbDatabase extends JavaScriptObject {
 	}-*/;
 
 	public native IdbObjectStore createObjectStore(String name, String keyPath,
-			boolean autoIncrement) /*-{
-		var optionalParameters = {};
-		optionalParameters.keyPath = keyPath;
-		optionalParameters.autoIncrement = autoIncrement;
-		return this.createObjectStore(name, optionalParameters);
+			boolean autoIncrement) throws IndexedDbException /*-{
+		try {
+			var optionalParameters = {};
+			optionalParameters.keyPath = keyPath;
+			optionalParameters.autoIncrement = autoIncrement;
+			return this.createObjectStore(name, optionalParameters);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
-	public native IdbRequest deleteObjectStore(String name) /*-{
-		return this.deleteObjectStore(name);
+	public native IdbRequest deleteObjectStore(String name)
+			throws IndexedDbException /*-{
+		try {
+			return this.deleteObjectStore(name);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
 	public native IdbVersionChangeRequest setVersion(String version) /*-{
 		return this.setVersion(version);
 	}-*/;
 
-	public native IdbTransaction transaction(DomStringList storeNames, int mode) /*-{
-		return this.transaction(storeNames, mode);
+	public native IdbTransaction transaction(DomStringList storeNames, int mode)
+			throws IndexedDbException /*-{
+		try {
+			return this.transaction(storeNames, mode);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
 	public native void close() /*-{

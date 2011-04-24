@@ -53,16 +53,24 @@ class DatabaseFactoryImpl implements DatabaseFactory {
 		request.onerror(new Callback() {
 			@Override
 			public void run(JavaScriptObject event) {
-				int errorCode = request.errorCode();
-				Type type = Type.getType(errorCode);
-				callback.onFailure(new IndexedDbException(type));
+				try {
+					int errorCode = request.errorCode();
+					Type type = Type.getType(errorCode);
+					callback.onFailure(new IndexedDbException(type));
+				} catch (IndexedDbException idx) {
+					callback.onFailure(idx);
+				}
 			}
 		});
 		request.onsuccess(new Callback() {
 			@Override
 			public void run(JavaScriptObject event) {
-				IdbDatabase database = (IdbDatabase) request.result();
-				callback.onSuccess(new Database(database));
+				try {
+					IdbDatabase database = (IdbDatabase) request.result();
+					callback.onSuccess(new Database(database));
+				} catch (IndexedDbException idx) {
+					callback.onFailure(idx);
+				}
 			}
 		});
 	}
@@ -74,9 +82,13 @@ class DatabaseFactoryImpl implements DatabaseFactory {
 		request.onerror(new Callback() {
 			@Override
 			public void run(JavaScriptObject event) {
-				int errorCode = request.errorCode();
-				Type type = Type.getType(errorCode);
-				callback.onFailure(new IndexedDbException(type));
+				try {
+					int errorCode = request.errorCode();
+					Type type = Type.getType(errorCode);
+					callback.onFailure(new IndexedDbException(type));
+				} catch (IndexedDbException idx) {
+					callback.onFailure(idx);
+				}
 			}
 		});
 		request.onsuccess(new Callback() {

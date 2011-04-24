@@ -21,6 +21,7 @@
 package com.prealpha.idb.async.jso;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.prealpha.idb.shared.IndexedDbException;
 
 public final class IdbObjectStore extends JavaScriptObject {
 	protected IdbObjectStore() {
@@ -42,52 +43,99 @@ public final class IdbObjectStore extends JavaScriptObject {
 		return this.transaction;
 	}-*/;
 
-	public native IdbRequest put(Object value) /*-{
-		return this.put(value);
+	public native IdbRequest put(Object value) throws IndexedDbException /*-{
+		try {
+			return this.put(value);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
-	public native IdbRequest put(Object value, Object key) /*-{
-		return this.put(value, key);
+	public native IdbRequest put(Object value, Object key)
+			throws IndexedDbException /*-{
+		try {
+			return this.put(value, key);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
-	public native IdbRequest add(Object value) /*-{
-		return this.add(value);
+	public native IdbRequest add(Object value) throws IndexedDbException /*-{
+		try {
+			return this.add(value);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
-	public native IdbRequest add(Object value, Object key) /*-{
-		return this.add(value, key);
+	public native IdbRequest add(Object value, Object key)
+			throws IndexedDbException /*-{
+		try {
+			return this.add(value, key);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
-	public native IdbRequest delete(Object key) /*-{
-		// TODO: hack to allow access
-		this["delete"](key);
+	public native IdbRequest delete(Object key) throws IndexedDbException /*-{
+		try {
+			// TODO: hack to allow access
+			this["delete"](key);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
-	public native IdbRequest get(Object key) /*-{
-		return this.get(key);
+	public native IdbRequest get(Object key) throws IndexedDbException /*-{
+		try {
+			return this.get(key);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
-	public native IdbRequest clear() /*-{
-		return this.clear();
+	public native IdbRequest clear() throws IndexedDbException /*-{
+		try {
+			return this.clear();
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
-	public native IdbRequest openCursor(IdbKeyRange range, int direction) /*-{
-		return this.openCursor(range, direction);
+	public native IdbRequest openCursor(IdbKeyRange range, int direction)
+			throws IndexedDbException /*-{
+		try {
+			return this.openCursor(range, direction);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
 	public native IdbIndex createIndex(String name, String keyPath,
-			boolean unique, boolean multirow) /*-{
-		var optionalParameters = {};
-		optionalParameters.unique = unique;
-		optionalParameters.multirow = multirow;
-		return this.createIndex(name, keyPath, optionalParameters);
+			boolean unique, boolean multirow) throws IndexedDbException /*-{
+		try {
+			var optionalParameters = {};
+			optionalParameters.unique = unique;
+			optionalParameters.multirow = multirow;
+			return this.createIndex(name, keyPath, optionalParameters);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
-	public native IdbIndex index(String name) /*-{
-		return this.index(name);
+	public native IdbIndex index(String name) throws IndexedDbException /*-{
+		try {
+			return this.index(name);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
-	public native void deleteIndex(String indexName) /*-{
-		this.deleteIndex(indexName);
+	public native void deleteIndex(String indexName) throws IndexedDbException /*-{
+		try {
+			this.deleteIndex(indexName);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 }

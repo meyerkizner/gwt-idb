@@ -21,17 +21,26 @@
 package com.prealpha.idb.async.jso;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.prealpha.idb.shared.IndexedDbException;
 
 public class IdbRequest extends JavaScriptObject {
 	protected IdbRequest() {
 	}
 
-	public final native Object result() /*-{
-		return this.result;
+	public final native Object result() throws IndexedDbException /*-{
+		try {
+			return this.result;
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
-	public final native int errorCode() /*-{
-		return this.errorCode;
+	public final native int errorCode() throws IndexedDbException /*-{
+		try {
+			return this.errorCode;
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 
 	public final native JavaScriptObject source() /*-{

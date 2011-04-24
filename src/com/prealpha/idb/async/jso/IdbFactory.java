@@ -21,6 +21,7 @@
 package com.prealpha.idb.async.jso;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.prealpha.idb.shared.IndexedDbException;
 
 public final class IdbFactory extends JavaScriptObject {
 	protected IdbFactory() {
@@ -34,7 +35,12 @@ public final class IdbFactory extends JavaScriptObject {
 		return this.deleteDatabase(name);
 	}-*/;
 
-	public native int cmp(Object first, Object second) /*-{
-		return this.cmp(first, second);
+	public native int cmp(Object first, Object second)
+			throws IndexedDbException /*-{
+		try {
+			return this.cmp(first, second);
+		} catch (err) {
+			$wnd.handleIdbx(err);
+		}
 	}-*/;
 }
